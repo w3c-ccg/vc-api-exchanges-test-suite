@@ -32,12 +32,21 @@ describe('Initiate Exchange', function() {
       });
       describe('Unmediated', function() {
         it('MUST proceed if POST to initiate is valid', async function() {
-          const {error, result, data} = exechanger.post({json: requestBodes.valid.get('initiate')});
+          const {
+            error,
+            result,
+            data
+          } = exchanger.post({json: requestBodies.valid.get('initiate')});
         });
         for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
-          it(`MUST NOT procced if POST to initiate is ${invalidDataType}`, async function() {
-            const {error, result, data} = exechanger.post({json: invalidBody});
-          });
+          it(`MUST NOT procced if POST to initiate is ${invalidDataType}`,
+            async function() {
+              const {
+                error,
+                result,
+                data
+              } = exchanger.post({json: invalidBody});
+            });
         }
       });
     });
