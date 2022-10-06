@@ -3,6 +3,7 @@
  */
 import chai from 'chai';
 import {endpoints} from 'vc-api-test-suite-implementations';
+import {requestBodies} from './mock.data.js';
 
 const should = chai.should();
 const tag = 'vc-api-exchangers';
@@ -13,7 +14,7 @@ const {
 
 describe('Initiate Exchange', function() {
   // this will tell the report
-  // to make an interop matrix with this suite
+  // to make a matrix with this suite
   this.matrix = true;
   this.report = true;
   this.implemented = [...match.keys()];
@@ -30,7 +31,14 @@ describe('Initiate Exchange', function() {
 
       });
       describe('Unmediated', function() {
-
+        it('MUST proceed if POST to initiate is valid', async function() {
+          const {error, result, data} = exechanger.post({json: requestBodes.valid.get('initiate')});
+        });
+        for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
+          it(`MUST NOT procced if POST to initiate is ${invalidDataType}`, async function() {
+            const {error, result, data} = exechanger.post({json: invalidBody});
+          });
+        }
       });
     });
   }

@@ -13,7 +13,7 @@ const {
 
 describe('Continue Exchange', function() {
   // this will tell the report
-  // to make an interop matrix with this suite
+  // to make a matrix with this suite
   this.matrix = true;
   this.report = true;
   this.implemented = [...match.keys()];
