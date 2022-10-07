@@ -39,7 +39,7 @@ describe('Initiate Exchange', function() {
           } = exchanger.post({json: requestBodies.valid.get('initiate')});
         });
         for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
-          it(`MUST NOT procced if POST to initiate is ${invalidDataType}`,
+          it(`MUST NOT proceed if POST to initiate is ${invalidDataType}`,
             async function() {
               const {
                 error,
