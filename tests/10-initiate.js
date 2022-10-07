@@ -36,16 +36,19 @@ describe('Initiate Exchange', function() {
             error,
             result,
             data
-          } = exchanger.post({json: requestBodies.valid.get('initiate')});
+          } = await exchanger.post({json: requestBodies.valid.get('initiate')});
+          should.not.exist(error, 'Expected exchanger to return a result.');
+          should.exist(result, 'Expected a result from exchanger.');
+          should.exist(data, 'Expected data from exchanger.');
         });
         for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
           it(`MUST NOT proceed if POST to initiate is ${invalidDataType}`,
             async function() {
-              const {
+              const {error} = await exchanger.post({json: invalidBody});
+              should.exist(
                 error,
-                result,
-                data
-              } = exchanger.post({json: invalidBody});
+                `Expected exchanger to error when body is ${invalidDataType}`
+              );
             });
         }
       });
