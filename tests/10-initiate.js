@@ -3,8 +3,8 @@
  */
 import chai from 'chai';
 import {endpoints} from 'vc-api-test-suite-implementations';
-import {HTTPError} from 'vc-api-test-suite-implementations';
 import {requestBodies} from './mock.data.js';
+import {shouldBeHTTPError} from './assertions.js';
 
 const should = chai.should();
 const tag = 'vc-api-exchangers';
@@ -55,17 +55,17 @@ describe('Initiate Exchange', function() {
           it(`MUST NOT proceed if POST to initiate is ${invalidDataType}`,
             async function() {
               this.test.cell = {columnId, rowId: this.test.title};
-              const {error} = await exchanger.post({json: invalidBody});
+              const {result, error} = await exchanger.post({body: invalidBody});
+              should.not.exist(
+                result,
+                `Expected exchanger to error when body is ${invalidDataType}`
+              );
               should.exist(
                 error,
                 `Expected exchanger to error when body is ${invalidDataType}`
               );
-              error.should.be.an.instanceOf(
-                HTTPError,
-                'Expected error to be a Response.'
-              );
-              error.should.have.property('status');
-              error.status.should.equal(400, 'Expected 400 Malformed error.');
+              shouldBeHTTPError(error);
+              error.should.have.property('status', 400);
             });
         }
       });
