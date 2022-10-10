@@ -55,7 +55,7 @@ describe('Initiate Exchange', function() {
           it(`MUST NOT proceed if POST to initiate is ${invalidDataType}`,
             async function() {
               this.test.cell = {columnId, rowId: this.test.title};
-              const {result, error} = await exchanger.post({body: invalidBody});
+              const {result, error} = await exchanger.post({json: invalidBody});
               should.not.exist(
                 result,
                 `Expected exchanger to error when body is ${invalidDataType}`

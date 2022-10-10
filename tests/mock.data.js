@@ -9,7 +9,6 @@ export const requestBodies = {
   invalid: new Map([
     ['a string', 'stringBody'],
     ['null', null],
-    ['undefined', undefined],
     ['an array', []],
     ['a number', 5]
   ])
