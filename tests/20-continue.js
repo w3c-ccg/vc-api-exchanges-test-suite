@@ -43,17 +43,26 @@ describe('Continue Exchange', function() {
         throw new Error(`Vendor ${columnId} has no exchanger with tag ${tag}`);
       }
       describe(columnId, function() {
+        let services = [];
+        let verifiablePresentationRequest;
+        before(async function() {
+          const {
+            error,
+            data
+          } = await exchanger.post({json: requestBodies.valid.get('initiate')});
+          if(error) {
+            console.error(columnId, error);
+            throw error;
+          }
+          verifiablePresentationRequest = data;
+          services = verifiablePresentationRequest?.interact?.services || {};
+        });
+        it('MUST return a Verifiable Presentation Request', function() {
+          shouldBeVerifiablePresentationRequest(verifiablePresentationRequest);
+        });
         it('SHOULD continue using /exchanges/:exchangeId/:transactionId',
           async function() {
             this.test.cell = {columnId, rowId: this.test.title};
-            const {
-              error,
-              result,
-              data
-            } = await exchanger.post(
-              {json: requestBodies.valid.get('initiate')});
-            shouldBeInitiateResponse({error, result, data});
-            shouldBeVerifiablePresentationRequest(data);
           });
       });
     }
