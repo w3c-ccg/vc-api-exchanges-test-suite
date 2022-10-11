@@ -1,10 +1,10 @@
 /*!
  * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
  */
+import {shouldBeHTTPError, shouldBeInitiateResponse} from './assertions.js';
 import chai from 'chai';
 import {endpoints} from 'vc-api-test-suite-implementations';
 import {requestBodies} from './mock.data.js';
-import {shouldBeHTTPError} from './assertions.js';
 
 const should = chai.should();
 const tag = 'vc-api-exchangers';
@@ -47,10 +47,7 @@ describe('Initiate Exchange', function() {
             result,
             data
           } = await exchanger.post({json: requestBodies.valid.get('initiate')});
-          should.not.exist(error, 'Expected exchanger to return a result.');
-          should.exist(result, 'Expected a result from exchanger.');
-          should.exist(data, 'Expected data from exchanger.');
-          data.should.be.an('object', 'Expected data to be an object.');
+          shouldBeInitiateResponse({error, result, data});
         });
         for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
           it(`MUST NOT proceed if POST to initiate is ${invalidDataType}`,
