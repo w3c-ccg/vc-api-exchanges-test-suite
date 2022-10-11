@@ -1,10 +1,16 @@
 /*!
  * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
  */
+import {
+  shouldBeHTTPError,
+  shouldBeInitiateResponse,
+  shouldBeVerifiablePresentationRequest
+} from './assertions.js';
 import chai from 'chai';
 import {endpoints} from 'vc-api-test-suite-implementations';
-const should = chai.should();
 import {requestBodies} from './mock.data.js';
+
+const should = chai.should();
 const tag = 'vc-api-exchangers';
 const {
   match,
@@ -37,18 +43,18 @@ describe('Continue Exchange', function() {
         throw new Error(`Vendor ${columnId} has no exchanger with tag ${tag}`);
       }
       describe(columnId, function() {
-        it('MUST continue', async function() {
-          this.test.cell = {columnId, rowId: this.test.title};
-          const {
-            error,
-            result,
-            data
-          } = await exchanger.post({json: requestBodies.valid.get('initiate')});
-          should.not.exist(error, 'Expected exchanger to return a result.');
-          should.exist(result, 'Expected a result from exchanger.');
-          should.exist(data, 'Expected data from exchanger.');
-          data.should.be.an('object', 'Expected data to be an object.');
-        });
+        it('SHOULD continue using /exchanges/:exchangeId/:transactionId',
+          async function() {
+            this.test.cell = {columnId, rowId: this.test.title};
+            const {
+              error,
+              result,
+              data
+            } = await exchanger.post(
+              {json: requestBodies.valid.get('initiate')});
+            shouldBeInitiateResponse({error, result, data});
+            shouldBeVerifiablePresentationRequest(data);
+          });
       });
     }
   });

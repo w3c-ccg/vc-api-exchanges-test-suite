@@ -40,15 +40,17 @@ describe('Initiate Exchange', function() {
         throw new Error(`Vendor ${columnId} has no exchanger with tag ${tag}`);
       }
       describe(columnId, function() {
-        it('MUST proceed if POST to initiate is valid', async function() {
-          this.test.cell = {columnId, rowId: this.test.title};
-          const {
-            error,
-            result,
-            data
-          } = await exchanger.post({json: requestBodies.valid.get('initiate')});
-          shouldBeInitiateResponse({error, result, data});
-        });
+        it('MUST proceed if POST to /exchanges/:exchangeId/ is valid',
+          async function() {
+            this.test.cell = {columnId, rowId: this.test.title};
+            const {
+              error,
+              result,
+              data
+            } = await exchanger.post(
+              {json: requestBodies.valid.get('initiate')});
+            shouldBeInitiateResponse({error, result, data});
+          });
         for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
           it(`MUST NOT proceed if POST to initiate is ${invalidDataType}`,
             async function() {
