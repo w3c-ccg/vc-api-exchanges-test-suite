@@ -14,6 +14,7 @@ const {
 } = endpoints.filterByTag({property: 'exchangers', tags: [tag]});
 
 describe('Initiate Exchange', function() {
+  // FIXME implement mediated tests using either webdriver or karma
   describe('Mediated', function() {
     // this will tell the report
     // to make a matrix with this suite

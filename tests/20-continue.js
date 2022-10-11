@@ -12,26 +12,33 @@ const {
 } = endpoints.filterByTag({property: 'exchangers', tags: [tag]});
 
 describe('Continue Exchange', function() {
-  // this will tell the report
-  // to make a matrix with this suite
-  this.matrix = true;
-  this.report = true;
-  this.implemented = [...match.keys()];
-  this.notImplemented = [...nonMatch.keys()];
-  this.rowLabel = 'Test Name';
-  this.columnLabel = 'Exchanger';
-  for(const [name, {endpoints}] of match) {
-    const [exchanger] = endpoints;
-    if(!exchanger) {
-      throw new Error(`Vendor ${name} has no exchanger with tag ${tag}`);
+  describe('Mediated', function() {
+    // this will tell the report
+    // to make a matrix with this suite
+    this.matrix = true;
+    this.report = true;
+    this.implemented = [...match.keys()];
+    this.notImplemented = [...nonMatch.keys()];
+    this.rowLabel = 'Test Name';
+    this.columnLabel = 'Exchanger';
+  });
+  describe('Unmediated', function() {
+    // this will tell the report
+    // to make a matrix with this suite
+    this.matrix = true;
+    this.report = true;
+    this.implemented = [...match.keys()];
+    this.notImplemented = [...nonMatch.keys()];
+    this.rowLabel = 'Test Name';
+    this.columnLabel = 'Exchanger';
+    for(const [name, {endpoints}] of match) {
+      const [exchanger] = endpoints;
+      if(!exchanger) {
+        throw new Error(`Vendor ${name} has no exchanger with tag ${tag}`);
+      }
+      describe(name, function() {
+
+      });
     }
-    describe(name, function() {
-      describe('Mediated', function() {
-
-      });
-      describe('Unmediated', function() {
-
-      });
-    });
-  }
+  });
 });
