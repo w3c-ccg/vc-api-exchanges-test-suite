@@ -66,7 +66,7 @@ describe('Continue Exchange', function() {
         it('SHOULD continue using /exchanges/:exchangeId/:transactionId',
           async function() {
             this.test.cell = {columnId, rowId: this.test.title};
-            const {result, error, data} = await exchanger.post({
+            const {result, error, data} = await exchanger.put({
               url: service.serviceEndpoint,
               json: requestBodies.valid.get('continue')
             });
