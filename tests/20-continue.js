@@ -74,6 +74,26 @@ describe('Continue Exchange', function() {
             should.exist(result, 'Expected a result');
             should.exist(data, 'Expected data');
           });
+        for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
+          it(`MUST NOT continue if PUT /:transactionId is ${invalidDataType}`,
+            async function() {
+              this.test.cell = {columnId, rowId: this.test.title};
+              const {result, error} = await exchanger.put({
+                url: service.serviceEndpoint,
+                json: invalidBody
+              });
+              should.not.exist(
+                result,
+                `Expected exchanger to error when body is ${invalidDataType}`
+              );
+              should.exist(
+                error,
+                `Expected exchanger to error when body is ${invalidDataType}`
+              );
+              shouldBeHTTPError(error);
+              error.should.have.property('status', 400);
+            });
+        }
       });
     }
   });

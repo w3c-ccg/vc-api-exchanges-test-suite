@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2022 Digital Bazaar, Inc. All rights reserved.
+ */
+import {klona} from 'klona';
+
 // FIXME we need to decide on what the initial request body
 // should look like
 const initiateExchange = {
@@ -59,6 +64,12 @@ const continuePresentation = {
   }
 };
 
+const cloneAndRemove = ({data = continuePresentation, prop}) => {
+  const clone = klona(data);
+  delete clone[prop];
+  return clone;
+};
+
 export const requestBodies = {
   valid: new Map([
     ['initiate', {...initiateExchange}],
@@ -69,5 +80,15 @@ export const requestBodies = {
     ['null', null],
     ['an array', []],
     ['a number', 5]
-  ])
+  ]),
+  continue: {
+    invalid: new Map([
+      ['no proof', cloneAndRemove({prop: 'proof'})],
+      ['no context', cloneAndRemove({prop: '@context'})],
+      [
+        'no verifiable credentials',
+        cloneAndRemove({prop: 'verifiableCredential'})
+      ]
+    ])
+  }
 };
