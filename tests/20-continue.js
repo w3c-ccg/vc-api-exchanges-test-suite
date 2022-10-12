@@ -3,7 +3,6 @@
  */
 import {
   shouldBeHTTPError,
-  shouldBeInitiateResponse,
   shouldBeVerifiablePresentationRequest
 } from './assertions.js';
 import chai from 'chai';
@@ -74,21 +73,41 @@ describe('Continue Exchange', function() {
             should.exist(result, 'Expected a result');
             should.exist(data, 'Expected data');
           });
-        for(const [invalidDataType, invalidBody] of requestBodies.invalid) {
-          it(`MUST NOT continue if PUT /:transactionId is ${invalidDataType}`,
+        for(const [testName, json] of requestBodies.invalid) {
+          it(`MUST NOT continue if PUT /:transactionId body is ${testName}`,
             async function() {
               this.test.cell = {columnId, rowId: this.test.title};
               const {result, error} = await exchanger.put({
                 url: service.serviceEndpoint,
-                json: invalidBody
+                json
               });
               should.not.exist(
                 result,
-                `Expected exchanger to error when body is ${invalidDataType}`
+                `Expected exchanger to error when body is ${testName}`
               );
               should.exist(
                 error,
-                `Expected exchanger to error when body is ${invalidDataType}`
+                `Expected exchanger to error when body is ${testName}`
+              );
+              shouldBeHTTPError(error);
+              error.should.have.property('status', 400);
+            });
+        }
+        for(const [testName, json] of requestBodies.continue.invalid) {
+          it(`MUST NOT continue if PUT /:transactionId body has no ${testName}`,
+            async function() {
+              this.test.cell = {columnId, rowId: this.test.title};
+              const {result, error} = await exchanger.put({
+                url: service.serviceEndpoint,
+                json
+              });
+              should.not.exist(
+                result,
+                `Expected exchanger to error when body is ${testName}`
+              );
+              should.exist(
+                error,
+                `Expected exchanger to error when body is ${testName}`
               );
               shouldBeHTTPError(error);
               error.should.have.property('status', 400);
