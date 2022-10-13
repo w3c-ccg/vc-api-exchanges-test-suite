@@ -85,10 +85,7 @@ export const requestBodies = {
     invalid: new Map([
       ['no proof', cloneAndRemove({prop: 'proof'})],
       ['no context', cloneAndRemove({prop: '@context'})],
-      [
-        'no verifiable credentials',
-        cloneAndRemove({prop: 'verifiableCredential'})
-      ]
+      ['no type', cloneAndRemove({prop: 'type'})]
     ])
   }
 };

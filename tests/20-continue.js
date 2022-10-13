@@ -94,7 +94,7 @@ describe('Continue Exchange', function() {
             });
         }
         for(const [testName, json] of requestBodies.continue.invalid) {
-          it(`MUST NOT continue if PUT /:transactionId body has no ${testName}`,
+          it(`MUST NOT continue if PUT /:transactionId body has ${testName}`,
             async function() {
               this.test.cell = {columnId, rowId: this.test.title};
               const {result, error} = await exchanger.put({
