@@ -83,8 +83,8 @@ export const requestBodies = {
   ]),
   continue: {
     invalid: new Map([
-      ['no context', cloneAndRemove({prop: '@context'})],
-      ['no type', cloneAndRemove({prop: 'type'})]
+      ['no `@context`', cloneAndRemove({prop: '@context'})],
+      ['no `type`', cloneAndRemove({prop: 'type'})]
     ])
   }
 };
