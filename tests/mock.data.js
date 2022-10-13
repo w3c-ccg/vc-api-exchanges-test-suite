@@ -83,7 +83,6 @@ export const requestBodies = {
   ]),
   continue: {
     invalid: new Map([
-      ['no proof', cloneAndRemove({prop: 'proof'})],
       ['no context', cloneAndRemove({prop: '@context'})],
       ['no type', cloneAndRemove({prop: 'type'})]
     ])
