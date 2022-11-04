@@ -65,7 +65,7 @@ describe('Continue Exchange', function() {
         it('SHOULD continue using /exchanges/:exchangeId/:transactionId',
           async function() {
             this.test.cell = {columnId, rowId: this.test.title};
-            const {result, error, data} = await exchanger.put({
+            const {result, error, data} = await exchanger.post({
               url: service.serviceEndpoint,
               json: requestBodies.valid.get('continue')
             });
@@ -74,10 +74,10 @@ describe('Continue Exchange', function() {
             should.exist(data, 'Expected data');
           });
         for(const [testName, json] of requestBodies.invalid) {
-          it(`MUST NOT continue if PUT /:transactionId body is ${testName}`,
+          it(`MUST NOT continue if post /:transactionId body is ${testName}`,
             async function() {
               this.test.cell = {columnId, rowId: this.test.title};
-              const {result, error} = await exchanger.put({
+              const {result, error} = await exchanger.post({
                 url: service.serviceEndpoint,
                 json
               });
@@ -94,10 +94,10 @@ describe('Continue Exchange', function() {
             });
         }
         for(const [testName, json] of requestBodies.continue.invalid) {
-          it(`MUST NOT continue if PUT /:transactionId body has ${testName}`,
+          it(`MUST NOT continue if post /:transactionId body has ${testName}`,
             async function() {
               this.test.cell = {columnId, rowId: this.test.title};
-              const {result, error} = await exchanger.put({
+              const {result, error} = await exchanger.post({
                 url: service.serviceEndpoint,
                 json
               });
